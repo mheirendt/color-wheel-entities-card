@@ -2,10 +2,12 @@
 
 A lovelace plugin for home assistant. Take control of the color of multiple entities with ease.
 
-[![GitHub Release][releases]][releases]
+[![GitHub Release][releases-shield]][releases]
+[![License][license-shield]](LICENSE.md)
 [![hacs_badge](https://img.shields.io/badge/HACS-Default-orange.svg?style=for-the-badge)](https://github.com/custom-components/hacs)
 
-[![GitHub Activity][commits]][commits]
+![Project Maintenance][maintenance-shield]
+[![GitHub Activity][commits-shield]][commits]
 
 ## Options
 
@@ -32,7 +34,11 @@ A lovelace plugin for home assistant. Take control of the color of multiple enti
 | haptic          | string | **Optional** | Haptic feedback for the [Beta IOS App](http://home-assistant.io/ios/beta) _success, warning, failure, light, medium, heavy, selection_ | `none`      |
 | repeat          | number | **Optional** | How often to repeat the `hold_action` in milliseconds.                                                                                 | `non`       |
 
+[commits-shield]: https://img.shields.io/github/commit-activity/y/mheirendt/color-wheel-entities.svg?style=for-the-badge
 [commits]: https://github.com/mheirendt/color-wheel-entities/commits/master
 [devcontainer]: https://code.visualstudio.com/docs/remote/containers
 [forum]: https://community.home-assistant.io/c/projects/frontend
+[license-shield]: https://img.shields.io/github/license/mheirendt/color-wheel-entities.svg?style=for-the-badge
+[maintenance-shield]: https://img.shields.io/maintenance/yes/2020.svg?style=for-the-badge
+[releases-shield]: https://img.shields.io/github/release/mheirendt/color-wheel-entities.svg?style=for-the-badge
 [releases]: https://github.com/mheirendt/color-wheel-entities/releases
