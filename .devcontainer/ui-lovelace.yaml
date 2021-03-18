@@ -1,0 +1,9 @@
+resources:
+  - url: http://127.0.0.1:5000/color-wheel-entities.js
+    type: module
+views:
+  - cards:
+      - type: custom:color-wheel-entities
+        name: Color Wheel Entities Development
+        entity: sun.sun
+        test_gui: true
