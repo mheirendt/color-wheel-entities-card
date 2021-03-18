@@ -1,7 +1,7 @@
 {
-  "name": "color-wheel-entities",
+  "name": "color-wheel-entities-card",
   "version": "1.0.0",
-  "description": "Lovelace color-wheel-entities",
+  "description": "Lovelace color-wheel-entities-card",
   "keywords": [
     "home-assistant",
     "homeassistant",
@@ -12,7 +12,7 @@
     "color-picker",
     "color-wheel"
   ],
-  "module": "color-wheel-entities.js",
+  "module": "color-wheel-entities-card.js",
   "repository": "https://github.com/mheirendt/color-wheel-entities",
   "author": "Michael Heirendt <michael.heirendt@gmail.com>",
   "license": "MIT",

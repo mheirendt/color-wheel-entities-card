@@ -38,7 +38,7 @@ console.info(
 (window as any).customCards = (window as any).customCards || [];
 (window as any).customCards.push({
   type: 'color-wheel-entities-card',
-  name: 'ColorWheelEntities Card',
+  name: 'Color Wheel Entities Card',
   description: 'Control multiple color lights with ease',
 });
 
@@ -101,7 +101,7 @@ export class ColorWheelEntitiesCard extends LitElement {
       hasDoubleClick: hasAction(this.config.double_tap_action),
     })}
         tabindex="0"
-        .label=${`Boilerplate: ${this.config.entity || 'No Entity Defined'}`}
+        .label=${`Color Wheel Entities: ${this.config.entities?.join(', ') || 'No Entity Defined'}`}
       ></ha-card>
     `;
   }

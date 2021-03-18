@@ -56,7 +56,7 @@ const options = {
 };
 
 @customElement('color-wheel-entities-card-editor')
-export class BoilerplateCardEditor extends LitElement implements LovelaceCardEditor {
+export class ColorWheelEntitiesCardEditor extends LitElement implements LovelaceCardEditor {
   @property({ attribute: false }) public hass?: HomeAssistant;
   @internalProperty() private _config?: ColorWheelEntitiesCardConfig;
   @internalProperty() private _toggle?: boolean;
@@ -114,7 +114,7 @@ export class BoilerplateCardEditor extends LitElement implements LovelaceCardEdi
     this._helpers.importMoreInfoControl('climate');
 
     // You can restrict on domain type
-    const entities = Object.keys(this.hass.states).filter(eid => eid.substr(0, eid.indexOf('.')) === 'sun');
+    // const entities = Object.keys(this.hass.states).filter(eid => eid.substr(0, eid.indexOf('.')) === 'sun');
     /** // Came from line 149
              ${options.required.show
         ? html`

@@ -6,7 +6,7 @@ import { terser } from "rollup-plugin-terser";
 import json from '@rollup/plugin-json';
 
 export default {
-  input: ["src/color-wheel-entities.ts"],
+  input: ["src/color-wheel-entities-card.ts"],
   output: {
     dir: "./dist",
     format: "es",

@@ -13,8 +13,8 @@ A community driven boilerplate of best practices for Home Assistant Lovelace cus
 
 | Name              | Type    | Requirement  | Description                                 | Default             |
 | ----------------- | ------- | ------------ | ------------------------------------------- | ------------------- |
-| type              | string  | **Required** | `custom:color-wheel-entities`                   |
-| name              | string  | **Optional** | Card name                                   | `ColorWheelEntities`       |
+| type              | string  | **Required** | `custom:color-wheel-entities-card`                   |
+| name              | string  | **Optional** | Card name                                   | `Color Wheel Entities Card`       |
 | show_error        | boolean | **Optional** | Show what an error looks like for the card  | `false`             |
 | show_warning      | boolean | **Optional** | Show what a warning looks like for the card | `false`             |
 | entity            | string  | **Optional** | Home Assistant entity ID.                   | `none`              |
