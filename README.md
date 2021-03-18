@@ -2,10 +2,10 @@
 
 A lovelace plugin for home assistant. Take control of the color of multiple entities with ease.
 
-[![GitHub Release][releases-shield]][releases]
+[![GitHub Release][releases]][releases]
 [![hacs_badge](https://img.shields.io/badge/HACS-Default-orange.svg?style=for-the-badge)](https://github.com/custom-components/hacs)
 
-[![GitHub Activity][commits-shield]][commits]
+[![GitHub Activity][commits]][commits]
 
 ## Options
 
