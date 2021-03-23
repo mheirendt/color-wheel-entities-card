@@ -10,6 +10,7 @@ import {
   PropertyValues,
   internalProperty,
 } from 'lit-element';
+import { Light } from './light';
 import {
   HomeAssistant,
   hasConfigOrEntityChanged,
@@ -21,6 +22,8 @@ import {
 } from 'custom-card-helpers'; // This is a community maintained npm module with common helper functions/types
 
 import './editor';
+import './color-wheel';
+import './light-editor';
 
 import type { ColorWheelEntitiesCardConfig } from './types';
 import { actionHandler } from './action-handler-directive';
@@ -57,6 +60,10 @@ export class ColorWheelEntitiesCard extends LitElement {
   @property({ attribute: false }) public hass!: HomeAssistant;
   @internalProperty() private config!: ColorWheelEntitiesCardConfig;
 
+
+  @internalProperty() private lights: Light[] = [];
+  @internalProperty() private selected?: Light;
+
   // https://lit-element.polymer-project.org/guide/properties#accessors-custom
   public setConfig(config: ColorWheelEntitiesCardConfig): void {
     if (!config) {
@@ -79,11 +86,13 @@ export class ColorWheelEntitiesCard extends LitElement {
       return false;
     }
 
+    if (changedProps.get('selected')) return true;
     return hasConfigOrEntityChanged(this, changedProps, false);
   }
 
   // https://lit-element.polymer-project.org/guide/templates
   protected render(): TemplateResult | void {
+
     if (this.config.show_warning) {
       return this._showWarning(localize('common.show_warning'));
     }
@@ -91,6 +100,8 @@ export class ColorWheelEntitiesCard extends LitElement {
     if (this.config.show_error) {
       return this._showError(localize('common.show_error'));
     }
+
+    this.lights = this.config.entities!.map(eid => new Light(this.hass, eid));
 
     return html`
       <ha-card
@@ -102,8 +113,19 @@ export class ColorWheelEntitiesCard extends LitElement {
     })}
         tabindex="0"
         .label=${`Color Wheel Entities: ${this.config.entities?.join(', ') || 'No Entity Defined'}`}
-      ></ha-card>
+      >
+        <light-editor .light=${this.selected}></light-editor>
+        <color-wheel .lights=${this.lights} @select=${this.updateSelection} @color=${this.updateColor}></color-wheel>
+      </ha-card>
     `;
+  }
+
+  updateSelection(e: CustomEvent) {
+    this.selected = e.detail.light;
+  }
+
+  updateColor({ detail: rgb }: CustomEvent) {
+    this.selected?.color(rgb);
   }
 
   private _handleAction(ev: ActionHandlerEvent): void {
@@ -131,8 +153,15 @@ export class ColorWheelEntitiesCard extends LitElement {
     `;
   }
 
+  // The height of your card. Home Assistant uses this to automatically
+  // distribute all cards over the available columns.
+  getCardSize() {
+    return 380;
+  }
+
   // https://lit-element.polymer-project.org/guide/styles
   static get styles(): CSSResult {
-    return css``;
+    return css`
+    `;
   }
 }

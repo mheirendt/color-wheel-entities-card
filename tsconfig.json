@@ -3,6 +3,7 @@
     "target": "es2017",
     "module": "esnext",
     "moduleResolution": "node",
+    "esModuleInterop": true,
     "lib": [
       "es2017",
       "dom",
@@ -12,6 +13,7 @@
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
+    "allowSyntheticDefaultImports": true,
     "strict": true,
     "noImplicitAny": false,
     "skipLibCheck": true,

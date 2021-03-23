@@ -9,6 +9,7 @@ import {
   CSSResult,
   css,
   internalProperty,
+  query
 } from 'lit-element';
 import { HomeAssistant, fireEvent, LovelaceCardEditor, ActionConfig } from 'custom-card-helpers';
 
@@ -63,6 +64,8 @@ export class ColorWheelEntitiesCardEditor extends LitElement implements Lovelace
   @internalProperty() private _helpers?: any;
   private _initialized = false;
 
+  @query('#name-input') private _nameInput;
+
   public setConfig(config: ColorWheelEntitiesCardConfig): void {
     this._config = config;
 
@@ -110,41 +113,33 @@ export class ColorWheelEntitiesCardEditor extends LitElement implements Lovelace
       return html``;
     }
 
-    // The climate more-info has ha-switch and paper-dropdown-menu elements that are lazy loaded unless explicitly done here
-    this._helpers.importMoreInfoControl('climate');
-
     // You can restrict on domain type
-    // const entities = Object.keys(this.hass.states).filter(eid => eid.substr(0, eid.indexOf('.')) === 'sun');
-    /** // Came from line 149
-             ${options.required.show
-        ? html`
-              <div class="values">
-                <paper-dropdown-menu
-                  label="Entity (Required)"
-                  @value-changed=${this._valueChanged}
-                  .configValue=${'entity'}
-                >
-                  <paper-listbox slot="dropdown-content" .selected=${entities.indexOf(this._entity)}>
-                    ${entities.map(entity => {
-          return html`
-                        <paper-item>${entity}</paper-item>
-                      `;
-        })}
-                  </paper-listbox>
-                </paper-dropdown-menu>
-              </div>
-            `
-        : ''}
-     */
+    const entities = Object.keys(this.hass.states).filter(eid => eid.substr(0, eid.indexOf('.')) === 'light' && !this._entities.includes(eid));
+
+    // <ha-icon .icon="mdi:close" data-idx="${idx}" @click=${this._removeEntity} />
 
     return html`
       <div class="card-config">
-        <div class="option" @click=${this._toggleOption} .option=${'required'}>
-          <div class="row">
-            <ha-icon .icon=${`mdi:${options.required.icon}`}></ha-icon>
-            <div class="title">${options.required.name}</div>
-          </div>
-          <div class="secondary">${options.required.secondary}</div>
+      <paper-input always-float-label id="name-input" label="Name" @input=${this._debounce(this._updateName, 1000)}></paper-input>
+        <div class="entities">
+          <h2>Entities</h2>
+          ${this._entities.map((entity, idx) => html`
+            <paper-item raised style="display: flex; justify-content: space-between;">
+              <div>${entity}</div>
+              <button data-idx="${idx}" @click=${this._removeEntity}>Delete</button>
+            </paper-item>
+          `)}
+          <paper-dropdown-menu
+            label="Select Entity"
+            @value-changed=${this._valueChanged}
+            .configValue=${'entities'}
+          >
+            <paper-listbox slot="dropdown-content">
+              ${entities.map(entity => html`
+                  <paper-item>${entity}</paper-item>
+              `)}
+            </paper-listbox>
+          </paper-dropdown-menu>
         </div>
 
         <div class="option" @click=${this._toggleOption} .option=${'actions'}>
@@ -240,6 +235,28 @@ export class ColorWheelEntitiesCardEditor extends LitElement implements Lovelace
     `;
   }
 
+  private _updateName() {
+    if (!this._config) return;
+    this._config = {
+      ...this._config,
+      name: this._nameInput.value
+    }
+    fireEvent(this, 'config-changed', { config: this._config });
+  }
+
+  private _debounce(func, wait) {
+    let timeout;
+    return () => {
+      var context = this, args = arguments;
+      var later = function () {
+        timeout = null;
+        func.apply(context, args);
+      };
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+    };
+  };
+
   private _initialize(): void {
     if (this.hass === undefined) return;
     if (this._config === undefined) return;
@@ -268,6 +285,19 @@ export class ColorWheelEntitiesCardEditor extends LitElement implements Lovelace
     this._toggle = !this._toggle;
   }
 
+  private _removeEntity(ev) {
+    if (!this._config || !this.hass) {
+      return;
+    }
+    const idx = parseInt(ev.target.dataset.idx);
+    const entities = this._config.entities || [];
+    this._config = {
+      ...this._config,
+      entities: [...entities.slice(0, idx), ...entities.slice(idx + 1)]
+    };
+    fireEvent(this, 'config-changed', { config: this._config });
+  }
+
   private _valueChanged(ev): void {
     if (!this._config || !this.hass) {
       return;
@@ -277,7 +307,17 @@ export class ColorWheelEntitiesCardEditor extends LitElement implements Lovelace
       return;
     }
     if (target.configValue) {
-      if (target.value === '') {
+      if (target.configValue === 'entities') {
+        // Only push if there is a value
+        if (target.value.length) {
+          const entities = this._config.entities || [];
+          this._config = {
+            ...this._config,
+            entities: [...entities, target.value]
+          }
+          target.value = '';
+        }
+      } else if (target.value === '') {
         delete this._config[target.configValue];
       } else {
         this._config = {

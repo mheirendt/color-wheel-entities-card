@@ -11,16 +11,16 @@ A lovelace plugin for home assistant. Take control of the color of multiple enti
 
 ## Options
 
-| Name              | Type    | Requirement  | Description                                 | Default             |
-| ----------------- | ------- | ------------ | ------------------------------------------- | ------------------- |
-| type              | string  | **Required** | `custom:color-wheel-entities-card`                   |
+| Name              | Type    | Requirement  | Description                                 | Default                           |
+| ----------------- | ------- | ------------ | ------------------------------------------- | --------------------------------- |
+| type              | string  | **Required** | `custom:color-wheel-entities-card`          |                                   |
 | name              | string  | **Optional** | Card name                                   | `Color Wheel Entities Card`       |
-| show_error        | boolean | **Optional** | Show what an error looks like for the card  | `false`             |
-| show_warning      | boolean | **Optional** | Show what a warning looks like for the card | `false`             |
-| entity            | string  | **Optional** | Home Assistant entity ID.                   | `none`              |
-| tap_action        | object  | **Optional** | Action to take on tap                       | `action: more-info` |
-| hold_action       | object  | **Optional** | Action to take on hold                      | `none`              |
-| double_tap_action | object  | **Optional** | Action to take on double tap                | `none`              |
+| show_error        | boolean | **Optional** | Show what an error looks like for the card  | `false`                           |
+| show_warning      | boolean | **Optional** | Show what a warning looks like for the card | `false`                           |
+| entities          | array   | **Required** | Entities to be controlled by the wheel      | `none`                            |
+| tap_action        | object  | **Optional** | Action to take on tap                       | `action: more-info`               |
+| hold_action       | object  | **Optional** | Action to take on hold                      | `none`                            |
+| double_tap_action | object  | **Optional** | Action to take on double tap                | `none`                            |
 
 ## Action Options
 
