@@ -2,12 +2,12 @@ import { ActionConfig, LovelaceCard, LovelaceCardConfig, LovelaceCardEditor } fr
 
 declare global {
   interface HTMLElementTagNameMap {
-    'color-wheel-entities-card-editor': LovelaceCardEditor;
+    'color-wheel-row-editor': LovelaceCardEditor;
     'hui-error-card': LovelaceCard;
   }
 }
 
-export interface ColorWheelEntitiesCardConfig extends LovelaceCardConfig {
+export interface ColorWheelRowConfig extends LovelaceCardConfig {
   type: string;
   name?: string;
   show_warning?: boolean;

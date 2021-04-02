@@ -7,7 +7,7 @@ import {
     CSSResult,
     TemplateResult,
     css,
-    PropertyValues,
+    query,
 } from 'lit-element';
 import { Light } from './light';
 
@@ -15,27 +15,39 @@ import { Light } from './light';
 @customElement('light-editor')
 export class LightEditor extends LitElement {
 
+    @query('.slider') private _slider!: HTMLElement;
     @property({ attribute: true }) light?: Light;
+    // private initialized = false;
 
+    // protected shouldUpdate(changedProps: PropertyValues): boolean {
+    //     const should = !this.initialized && changedProps.has('light');
+    //     this.initialized = should;
+    //     return should;
+    // }
 
-    // https://lit-element.polymer-project.org/guide/lifecycle#shouldupdate
-    protected shouldUpdate(changedProps: PropertyValues): boolean {
-        return changedProps.has('light');
-    }
-
-    // https://lit-element.polymer-project.org/guide/templates
     protected render(): TemplateResult | void {
         if (!this.light) return;
+
         return html`
           <div class="container">
-            <div class="title">${this.light.name}</div>
-            <input type="checkbox" .checked=${this.light.on} @click=${this.toggleLight} />
+            <ha-icon style="padding-right: 10px; color: ${this._iconColor()}" .icon=${this.light.icon}></ha-icon>
+            <div class="label">${this.light.name}</div>
+            <paper-slider class="slider" .value=${this.light.brightness} @change=${this._updateBrightness} max="100"></paper-slider>
+            <div class="label">${this.light.brightness} %</div>
           </div>
       `;
     }
 
-    private toggleLight() {
-        this.light?.toggle();
+    private _iconColor() {
+        if (!this.light || !this.light.on) return 'darkgray';
+        if (this.light.rgb.every(c => c === 255)) return 'rgb(253, 216, 53)';
+        return `rgb(${this.light.rgb.join(',')})`;
+    }
+
+    private _updateBrightness() {
+        const value = this._slider.getAttribute('value');
+        if (value) this.light?.setBrightness(parseInt(value));
+        else this.light?.toggle();
     }
 
     static get styles(): CSSResult {
@@ -45,10 +57,18 @@ export class LightEditor extends LitElement {
                 padding-right: 15px;
                 display: flex;
                 justify-content: space-between;
+                align-items: center;
             }
 
-            .title {
-                font-size: 18px;
+            .label {
+                white-space: nowrap;
+                font-size: 14px;
+            }
+
+            .slider {
+                min-width: 100px;
+                max-width: 200px;
+                width: 100%;
             }
         `;
     }

@@ -14,7 +14,7 @@ jobs:
       # Build
       - name: Build the file
         run: |
-          cd /home/runner/work/color-wheel-entities-card/color-wheel-entities-card
+          cd /home/runner/work/color-wheel-row/color-wheel-row
           npm install
           npm run build
 
@@ -24,7 +24,7 @@ jobs:
 
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: /home/runner/work/color-wheel-entities-card/color-wheel-entities-card/dist/color-wheel-entities-card.js
-          asset_name: color-wheel-entitie.js
+          file: /home/runner/work/color-wheel-row/color-wheel-row/dist/color-wheel-row.js
+          asset_name: color-wheel-row.js
           tag: ${{ github.ref }}
           overwrite: true

@@ -32,7 +32,7 @@ const plugins = [
 
 export default [
   {
-    input: 'src/color-wheel-entities-card.ts',
+    input: 'src/color-wheel-row.ts',
     output: {
       dir: 'dist',
       format: 'es',
